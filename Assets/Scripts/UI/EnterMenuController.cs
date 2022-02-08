@@ -44,6 +44,15 @@ public class EnterMenuController : Menu
         if (Admins.Where(x => x.Login == login.text && x.Password == password.text).Any())
         {
             isAdmin = true;
+
+            var frames = GameObject.FindObjectsOfType<PictureFrame>(true);
+
+            foreach (var frame in frames)
+            {
+                frame.gameObject.SetActive(true);
+                frame.ShowPicture(frame.picture);
+            }
+
             InterfaceController.OpenMenu("InventoryMenu");
         }
         else

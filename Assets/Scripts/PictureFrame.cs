@@ -31,8 +31,22 @@ public class PictureFrame : MonoBehaviour
         tex.LoadImage(prevPicture.PictureBytes);
 
         tex.Apply();
+        var renderer = center.GetComponent<Renderer>();
+        renderer.material.mainTexture = tex;
 
-        center.GetComponent<Renderer>().material.mainTexture = tex;
+        var texRelation = tex.height / (float)tex.width;
+
+        var centerRelation = center.transform.localScale.y / center.transform.localScale.x;
+
+        var multiplier = centerRelation / texRelation;
+        float mulX = 1;
+        float mulY = 1;
+        if (multiplier < 1)
+            mulX = multiplier;
+        else
+            mulY = 1 / multiplier;
+
+        center.transform.localScale = new Vector3(center.transform.localScale.x * mulX, center.transform.localScale.y * mulY, center.transform.localScale.z);
         center.SetActive(true);
     }
 
@@ -55,6 +69,7 @@ public class PictureFrame : MonoBehaviour
         }
         if (newPicture != null)
         {
+            gameObject.SetActive(true);
             newPicture.FrameNumber = FrameNumber;
             Downloader.ChangeImg(newPicture, FrameNumber);
 

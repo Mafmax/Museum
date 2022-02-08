@@ -45,8 +45,10 @@ public class Downloader : MonoBehaviour
             PictureFrame.allImages = pictures;
             for (int i = 0; i < frames.Length; i++)
             {
+                frames[i].gameObject.SetActive(false);
                 frames[i].FrameNumber = i;
-                frames[i].AddPicture(pictures.Where(x => x.FrameNumber == frames[i].FrameNumber).FirstOrDefault());
+                frames[i].AddPicture(pictures.FirstOrDefault(x => x.FrameNumber == frames[i].FrameNumber));
+
             }
             picReady = true;
         };
